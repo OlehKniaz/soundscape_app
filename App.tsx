@@ -1,134 +1,111 @@
-import { Canvas, LinearGradient, Path, Skia, Text, useClockValue, useComputedValue, useValue, vec } from "@shopify/react-native-skia";
-import { curveBasis, index, line } from "d3";
-import React from "react";
+import React, {useState} from "react";
 import {
-  Alert,
   Dimensions,
   SafeAreaView,
   View,
   StyleSheet,
-  Text as RNText,
+  Text,
+  TextInput,
   TouchableOpacity,
 } from "react-native";
+import WaveBackground from "./src/components/waveBackground/waveBackground";
+import { SvgXml } from 'react-native-svg'
+import Svg, { G, Path } from 'react-native-svg';
+import { logo } from "./src/icons";
 
 const dimens = Dimensions.get("screen");
-const width = dimens.width;
-const frequency = 4;
-const initialAmplitude = 11;
-const verticalShiftConst = 100;
-const height = dimens.height/4;
-const horizontalShift = (dimens.width - width) / 2;
+
 
 const App = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  const verticalShift = useValue(verticalShiftConst);
-  const verticalShift2 = useValue(verticalShiftConst-20);
-  const verticalShift3 = useValue(verticalShiftConst/2);
-  const amplitude = useValue(initialAmplitude);
-  const clock = useClockValue();
-
-
-  const createWavePath = (phase = 15) => {
-    let points = Array.from({ length: width + horizontalShift }, (_, index) => {
-      const angle =
-        ((index - horizontalShift) / width) * (Math.PI * frequency) + phase;
-      return [
-        index,
-        amplitude.current * Math.sin(angle) + verticalShift.current,
-      ];
-    });
-
-    const shiftedPoints = points.slice(horizontalShift, width) as [
-      number,
-      number
-    ][];
-    const lineGenerator = line().curve(curveBasis);
-    const waveLine = lineGenerator(shiftedPoints);
-    const bottomLine = `L${
-      width + horizontalShift
-    },${height} L${horizontalShift},${height}`;
-    const extendedWavePath = `${waveLine} ${bottomLine} Z`;
-    return extendedWavePath;
+  const handleLogin = () => {
+    // You can add your login logic here
+    if (email && password) {
+      // Perform authentication, API call, or any other action
+      // If successful, navigate to the main app screen
+    } else {
+      // Display an error message or handle invalid input
+    }
   };
 
-  const animatedPath3 = useComputedValue(()=>{
-    const current = (clock.current / 600) % 300 ;
-    const start = Skia.Path.MakeFromSVGString(createWavePath(current))!;
-    const end = Skia.Path.MakeFromSVGString(createWavePath(Math.PI * current))!;
-    return start.interpolate(end, 0.3)!;
-  },[clock,verticalShift3])
-
-  const animatedPath2 = useComputedValue(()=>{
-    const current = (clock.current / 1200) % 300
-    const start = Skia.Path.MakeFromSVGString(createWavePath(current))!;
-    const end = Skia.Path.MakeFromSVGString(createWavePath(Math.PI * current))!;
-    return start.interpolate(end, 0.2)!;
-  },[clock,verticalShift2])
-
-const animatedPath = useComputedValue(()=>{
-  const current = (clock.current / 1200) % 300
-  const start = Skia.Path.MakeFromSVGString(createWavePath(current))!;
-  const end = Skia.Path.MakeFromSVGString(createWavePath(Math.PI * current))!;
-  return start.interpolate(end, 0.4)!;
-},[clock,verticalShift])
-
-const gradientStart = useComputedValue(() => {
-  return vec(0, verticalShift.current);
-}, [verticalShift]);
-
-const gradientEnd = useComputedValue(() => {
-  return vec(0, verticalShift.current + 150);
-}, [verticalShift]);
-
-
   return (
-    <SafeAreaView style={styles.container}>
-     <RNText style={styles.buttonText}>Hello world</RNText>
-     <Canvas style={styles.canvas}>
-     <Path path={animatedPath2} style={'fill'}>
-        <LinearGradient
-        start={gradientStart}
-        end={gradientEnd}
-        colors={["#A94859","red"]}
-        />
-      </Path>
-      <Path path={animatedPath} style={"fill"}>
-        <LinearGradient
-        start={gradientStart}
-        end={gradientEnd}
-        colors={["#FF5D73","red"]}
-        />
-      </Path>
-     </Canvas>
+    <SafeAreaView style={styles.safeAreaViewContainer}>
+      <View style={styles.logoStyles}>
+      <SvgXml width={120} height={120} xml={logo} />
+      </View>
+    <View style={styles.loginFlowContainer}> 
+      <Text style={styles.header}>Enter to soundscape</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Email"
+        placeholderTextColor="#B9B9B9"
+        value={email}
+        onChangeText={(text) => setEmail(text)}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Password"
+        placeholderTextColor="#B9B9B9"
+        
+        secureTextEntry
+        value={password}
+        onChangeText={(text) => setPassword(text)}
+      />
+      <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+        <Text style={styles.loginButtonText}>Login</Text>
+      </TouchableOpacity>
+    </View>
+     <WaveBackground/>
+  
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  safeAreaViewContainer: {
     flex: 1,
-    backgroundColor: "black",
+    alignItems: 'center',
+    backgroundColor: '#494949',
   },
-  canvas: {
-    flex: 1,
-    marginTop:height*2.7
+  loginFlowContainer:{
+    height: dimens.height*0.3,
+    justifyContent:'center',
+    alignItems: 'center',
   },
-  path2:{
-    marginBottom:20
+  logoStyles:{
+    height: dimens.height*0.33,
+   alignSelf:'center',
+    justifyContent:'center'
   },
-  buttonContainer: {
-    height: 60,
-    borderRadius: 8,
-    backgroundColor: "#FF5349",
-    marginHorizontal: 50,
+  header: {
+    fontSize: 24,
+    fontWeight: 'bold',
     marginBottom: 20,
-    justifyContent: "center",
-    alignItems: "center",
+    color:"#B9B9B9"
+
   },
-  buttonText: {
-    color: "white",
-    fontSize: 20,
-    fontWeight: "bold",
+  input: {
+    width: dimens.width*0.8,
+    height: 40,
+    // borderColor: '#A94859',
+    // borderWidth: 1,
+    borderRadius: 11,
+    marginBottom: 15,
+    paddingHorizontal: 10,
+    backgroundColor:'#3C3C3C'
+  },
+  loginButton: {
+    backgroundColor: '#A94859',
+    padding: 15,
+    borderRadius: 11,
+    width: dimens.width*0.3
+  },
+  loginButtonText: {
+    color: '#B9B9B9',
+    fontSize: 18,
+    textAlign: 'center',
   },
 });
 
