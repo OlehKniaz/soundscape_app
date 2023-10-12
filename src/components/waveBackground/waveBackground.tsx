@@ -1,13 +1,12 @@
 import React from "react";
 import {
-  SafeAreaView,
   StyleSheet,
-  Text as RNText,
   Dimensions,
-  View
 } from "react-native";
 import { Canvas, LinearGradient, Path, Skia, useClockValue, useComputedValue, useValue, vec } from "@shopify/react-native-skia";
 import { curveBasis, line } from "d3";
+import { colors } from "../../styles/colors";
+import { sh } from "../../utils";
 
 const dimens = Dimensions.get("screen");
 
@@ -20,7 +19,7 @@ const WaveBackground = () => {
   const horizontalShift = (dimens.width - width) / 2;
 
   const verticalShift = useValue(verticalShiftConst);
-  const verticalShift2 = useValue(verticalShiftConst - 20);
+  const verticalShift2 = useValue(verticalShiftConst - sh(20));
   const amplitude = useValue(initialAmplitude);
   const clock = useClockValue();
 
@@ -79,14 +78,14 @@ const WaveBackground = () => {
           <LinearGradient
             start={gradientStart}
             end={gradientEnd}
-            colors={["#A94859", "#494949"]}
+            colors={[colors.pink, colors.background]}
           />
         </Path>
         <Path path={animatedPath} style={"fill"}>
           <LinearGradient
             start={gradientStart}
             end={gradientEnd}
-            colors={["#FF5D73", "#494949"]}
+            colors={[colors.darkPink, colors.background]}
           />
         </Path>
       </Canvas>
