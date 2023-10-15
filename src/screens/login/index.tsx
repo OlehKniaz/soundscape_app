@@ -70,8 +70,8 @@ const Login = ()=>{
       fontSize: 24,
       fontWeight: 'bold',
       marginBottom: 20,
-      color:colors.text
-  
+      color:colors.text,
+      fontFamily:'Gobold CYR-LAT',
     },
     loginButton: {
       backgroundColor: colors.pink,

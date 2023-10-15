@@ -43,8 +43,8 @@ const styles = StyleSheet.create({
       textAlign: 'left',
       textAlignVertical: 'center',
       color:colors.text,
-      ...inputText
-    // fontStyle: 'normal',
+      ...inputText,
+    // fontStyle: 'italic',
     },
     container: {
       borderRadius: 11,

@@ -3,7 +3,8 @@ import {TextInput, StyleSheet, View, Pressable, Dimensions} from 'react-native';
 import { SvgXml } from 'react-native-svg';
 import { lock ,eye,eyeClose} from '../../../../assets/icons';
 import {sh,sw} from '../../../../utils'
-
+import { colors } from '../../../../styles/colors';
+import {inputText} from '../../../../styles/typografia'
 
 const {width, height} = Dimensions.get('window');
 
@@ -16,15 +17,15 @@ const InputPassword = () => {
       <View style={styles.key}>
         <SvgXml
           xml={lock}
-          fill={'#B9B9B9'}
+          fill={colors.inactiveIcon}
           width={sw(20)}
           height={sh(20)}
         />
       </View>
       <View style={styles.password}>
         <TextInput
-          placeholder='Email'
-          placeholderTextColor={'#B9B9B9'}
+          placeholder='Password'
+          placeholderTextColor={colors.text}
           style={styles.textInput}
           value={password}
           secureTextEntry={isSecureText}
@@ -38,9 +39,9 @@ const InputPassword = () => {
         onPress={() => setIsSecureText(!isSecureText)}>
         <SvgXml
           xml={isSecureText ? eye : eyeClose}
-          fill={'#B9B9B9'}
+          fill={colors.inactiveIcon}
           width={sw(24)}
-          height={sh(24)}
+          height={sh(20)}
         />
       </Pressable>
     </View>
@@ -52,9 +53,9 @@ const styles = StyleSheet.create({
       height: height * 0.055,
       width: width * 0.63,
       marginLeft: width * 0.01,
-    //   fontFamily: 'Poppins-Light',
       textAlign: 'left',
       textAlignVertical: 'center',
+      ...inputText,
       color:'#B9B9B9'
     },
     container: {
