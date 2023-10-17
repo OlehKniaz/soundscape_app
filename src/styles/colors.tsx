@@ -8,6 +8,7 @@ export const colors =
         darkPink:'#FF5D73',
         text:'#B9B9B9',
         inactiveIcon:'#B9B9B9',
+        backgroundScreens:'#6D6D6D',
         background:'#494949',
         sectionBackground:'#3C3C3C'
     }:{
@@ -16,5 +17,6 @@ export const colors =
         text:'#B9B9B9',
         inactiveIcon:'#B9B9B9',
         background:'#494949',
+        backgroundScreens:'#6D6D6D',
         sectionBackground:'#3C3C3C'
     }
