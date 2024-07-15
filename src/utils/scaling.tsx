@@ -1,6 +1,6 @@
-import { Dimensions } from 'react-native';
+import {Dimensions} from 'react-native';
 
-const { width, height } = Dimensions.get('screen');
+const {width, height} = Dimensions.get('screen');
 
 // Based on Pixel 7a size
 // Scales up for bigger screens and scales down for smaller ones

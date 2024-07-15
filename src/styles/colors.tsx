@@ -2,21 +2,24 @@ import {Appearance} from 'react-native';
 const colorScheme = Appearance.getColorScheme();
 
 export const colors =
-    colorScheme === 'light'
-    ?{
-        pink:'#A94859',
-        darkPink:'#FF5D73',
-        text:'#B9B9B9',
-        inactiveIcon:'#B9B9B9',
-        backgroundScreens:'#6D6D6D',
-        background:'#494949',
-        sectionBackground:'#3C3C3C'
-    }:{
-        pink:'#A94859',
-        darkPink:'#FF5D73',
-        text:'#B9B9B9',
-        inactiveIcon:'#B9B9B9',
-        background:'#494949',
-        backgroundScreens:'#6D6D6D',
-        sectionBackground:'#3C3C3C'
-    }
+  colorScheme === 'light'
+    ? {
+        pink: '#FF5D73',
+        darkPink: '#A94859',
+        text: '#B9B9B9',
+        inactiveText: '#cccccc',
+        inactiveIcon: '#B9B9B9',
+        backgroundScreens: '#595959',
+        background: '#494949',
+        sectionBackground: '#3C3C3C',
+      }
+    : {
+        pink: '#FF5D73',
+        darkPink: '#A94859',
+        text: '#B9B9B9',
+        inactiveText: '#cccccc',
+        inactiveIcon: '#B9B9B9',
+        backgroundScreens: '#595959',
+        background: '#494949',
+        sectionBackground: '#3C3C3C',
+      };

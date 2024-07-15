@@ -1,14 +1,20 @@
-import React from "react";
+import React from 'react';
+import {StyleSheet, Dimensions} from 'react-native';
 import {
-  StyleSheet,
-  Dimensions,
-} from "react-native";
-import { Canvas, LinearGradient, Path, Skia, useClockValue, useComputedValue, useValue, vec } from "@shopify/react-native-skia";
-import { curveBasis, line } from "d3";
-import { colors } from "../../styles/colors";
-import { sh } from "../../utils";
+  Canvas,
+  LinearGradient,
+  Path,
+  Skia,
+  useClockValue,
+  useComputedValue,
+  useValue,
+  vec,
+} from '@shopify/react-native-skia';
+import {curveBasis, line} from 'd3';
+import {colors} from '../../styles/colors';
+import {sh} from '../../utils';
 
-const dimens = Dimensions.get("screen");
+const dimens = Dimensions.get('screen');
 
 const WaveBackground = () => {
   const width = dimens.width;
@@ -24,7 +30,7 @@ const WaveBackground = () => {
   const clock = useClockValue();
 
   const createWavePath = (phase = 15) => {
-    let points = Array.from({ length: width + horizontalShift }, (_, index) => {
+    let points = Array.from({length: width + horizontalShift}, (_, index) => {
       const angle =
         ((index - horizontalShift) / width) * (Math.PI * frequency) + phase;
       return [
@@ -35,7 +41,7 @@ const WaveBackground = () => {
 
     const shiftedPoints = points.slice(horizontalShift, width) as [
       number,
-      number
+      number,
     ][];
     const lineGenerator = line().curve(curveBasis);
     const waveLine = lineGenerator(shiftedPoints);
@@ -50,7 +56,7 @@ const WaveBackground = () => {
     const current = (clock.current / 1200) % 500;
     const start = Skia.Path.MakeFromSVGString(createWavePath(current))!;
     const end = Skia.Path.MakeFromSVGString(
-      createWavePath(Math.PI * (current - 100))
+      createWavePath(Math.PI * (current - 100)),
     )!;
     return start.interpolate(end, 0.2)!;
   }, [clock, verticalShift2]);
@@ -58,9 +64,7 @@ const WaveBackground = () => {
   const animatedPath = useComputedValue(() => {
     const current = (clock.current / 1500) % 200;
     const start = Skia.Path.MakeFromSVGString(createWavePath(current))!;
-    const end = Skia.Path.MakeFromSVGString(
-      createWavePath(Math.PI * current)
-    )!;
+    const end = Skia.Path.MakeFromSVGString(createWavePath(Math.PI * current))!;
     return start.interpolate(end, 0.4)!;
   }, [clock, verticalShift]);
 
@@ -73,28 +77,28 @@ const WaveBackground = () => {
   }, [verticalShift]);
 
   return (
-      <Canvas style={styles.canvas}>
-        <Path path={animatedPath2} style={"fill"}>
-          <LinearGradient
-            start={gradientStart}
-            end={gradientEnd}
-            colors={[colors.pink, colors.background]}
-          />
-        </Path>
-        <Path path={animatedPath} style={"fill"}>
-          <LinearGradient
-            start={gradientStart}
-            end={gradientEnd}
-            colors={[colors.darkPink, colors.background]}
-          />
-        </Path>
-      </Canvas>
+    <Canvas style={styles.canvas}>
+      <Path path={animatedPath2} style={'fill'}>
+        <LinearGradient
+          start={gradientStart}
+          end={gradientEnd}
+          colors={[colors.darkPink, colors.background]}
+        />
+      </Path>
+      <Path path={animatedPath} style={'fill'}>
+        <LinearGradient
+          start={gradientStart}
+          end={gradientEnd}
+          colors={[colors.pink, colors.background]}
+        />
+      </Path>
+    </Canvas>
   );
 };
 
 const styles = StyleSheet.create({
   canvas: {
-    position: "absolute",
+    position: 'absolute',
     zIndex: 666,
     flex: 1,
     width: dimens.width,
